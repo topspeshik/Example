@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ip-test-task</string>
+    <string name="date_add">Дата добавления</string>
+    <string name="storage">На складе</string>
+    <string name="list_items">Список товаров</string>
+    <string name="search_items">Поиск товаров</string>
+    <string name="amount_items">Количество товара</string>
+    <string name="delete_item">Удаление товара</string>
+    <string name="delete_message">Вы действительно хотите удалить выбранный товар?</string>
+</resources>

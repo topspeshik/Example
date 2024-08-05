@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common paddings and margins -->
+    <dimen name="baseline_grid_tiny">4dp</dimen>
+    <dimen name="baseline_grid_small">8dp</dimen>
+    <dimen name="baseline_grid_regular">12dp</dimen>
+    <dimen name="baseline_grid">16dp</dimen>
+    <dimen name="baseline_grid_big">24dp</dimen>
+    <dimen name="baseline_grid_large">40dp</dimen>
+
+
+</resources>
