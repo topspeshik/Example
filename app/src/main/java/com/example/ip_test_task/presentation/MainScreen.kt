@@ -63,10 +63,8 @@ import com.example.ip_test_task.ui.theme.IptesttaskTheme
 fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
 
     val state = viewModel.mainStateFlow.collectAsState(MainScreenState.Initial)
-    val searchText = viewModel.searchText.collectAsState()
     MainScreenContent(
         state,
-        searchText,
         { viewModel.onSearchTextChanged(it) },
         { item, amount -> viewModel.onAmountChange(item, amount) },
         { item -> viewModel.onDeleteItem(item) },
@@ -78,7 +76,6 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
 @Composable
 fun MainScreenContent(
     state: State<MainScreenState>,
-    searchState: State<String>,
     onSearchTextChange: (String) -> Unit,
     onAmountChange: (Item, Int) -> Unit,
     onDeleteItem: (Item) -> Unit
@@ -95,10 +92,11 @@ fun MainScreenContent(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            CustomSearchBar(searchState.value, onQueryChange = { onSearchTextChange(it) })
+
             when (val currentState = state.value) {
                 MainScreenState.Initial -> {}
                 is MainScreenState.Items -> {
+                    CustomSearchBar(currentState.search, onQueryChange = { onSearchTextChange(it) })
                     ItemList(currentState.items, onAmountChange, onDeleteItem)
                 }
             }

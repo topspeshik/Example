@@ -24,19 +24,18 @@ class MainViewModel @Inject constructor(
 ) :ViewModel() {
 
     private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
 
     val mainStateFlow: StateFlow<MainScreenState> = combine(
         itemRepository.itemList,
-        searchText
+        _searchText
     ) { items, query ->
         if (query.isEmpty()) {
-            MainScreenState.Items(items)
+            MainScreenState.Items(items, query)
         } else {
             val filteredItems = items.filter {
                 it.name.contains(query, ignoreCase = true)
             }
-            MainScreenState.Items(filteredItems)
+            MainScreenState.Items(filteredItems,query)
         }
     }
         .stateIn(

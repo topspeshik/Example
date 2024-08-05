@@ -8,6 +8,7 @@ sealed class MainScreenState {
     object Initial : MainScreenState()
 
     data class Items(
-        val items: List<Item>
+        val items: List<Item>,
+        val search: String
     ) : MainScreenState()
 }
