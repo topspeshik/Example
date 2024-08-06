@@ -2,6 +2,7 @@ package com.example.ip_test_task.presentation
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +20,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
@@ -49,6 +52,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -116,6 +120,26 @@ fun CustomSearchBar(
         value = query,
         onValueChange = onQueryChange,
         label = { Text(stringResource(R.string.search_items)) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                tint = Color.Black,
+                contentDescription = "Search"
+            )
+        },
+        trailingIcon = {
+            if (query.isNotBlank()) {
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "Clear search",
+                    tint = Color.Black,
+                    modifier = Modifier
+                        .clickable {
+                            onQueryChange("")
+                        }
+                )
+            }
+        },
     )
 }
 
@@ -131,7 +155,7 @@ fun ItemList(
             .fillMaxSize()
             .padding(8.dp),
     ) {
-        item{
+        item {
             CustomSearchBar(state.search, onQueryChange = { onSearchTextChange(it) })
         }
         items(items = state.items, key = { it.id }) {
@@ -146,6 +170,8 @@ fun ItemList(
 fun ItemCard(item: Item, onAmountChange: (Item, Int) -> Unit, onDeleteItem: (Item) -> Unit) {
     var showDialogEdit by remember { mutableStateOf(false) }
     var showDialogDelete by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+
 
     if (showDialogEdit) {
         AmountEditDialog(
@@ -162,11 +188,13 @@ fun ItemCard(item: Item, onAmountChange: (Item, Int) -> Unit, onDeleteItem: (Ite
         )
     }
 
-
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = dimensionResource(id = R.dimen.baseline_grid_small)),
+            .padding(vertical = dimensionResource(id = R.dimen.baseline_grid_small))
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }) { focusManager.clearFocus() },
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.onPrimary),
         shape = MaterialTheme.shapes.small,
         elevation = CardDefaults.cardElevation(
