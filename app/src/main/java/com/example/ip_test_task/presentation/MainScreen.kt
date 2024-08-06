@@ -116,8 +116,7 @@ fun CustomSearchBar(
 ) {
     OutlinedTextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         value = query,
         onValueChange = onQueryChange,
         label = { Text(stringResource(R.string.search_items)) },
