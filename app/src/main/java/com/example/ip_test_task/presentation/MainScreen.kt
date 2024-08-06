@@ -96,8 +96,7 @@ fun MainScreenContent(
             when (val currentState = state.value) {
                 MainScreenState.Initial -> {}
                 is MainScreenState.Items -> {
-                    CustomSearchBar(currentState.search, onQueryChange = { onSearchTextChange(it) })
-                    ItemList(currentState.items, onAmountChange, onDeleteItem)
+                    ItemList(currentState, onAmountChange, onDeleteItem, onSearchTextChange)
                 }
             }
 
@@ -122,16 +121,20 @@ fun CustomSearchBar(
 
 @Composable
 fun ItemList(
-    items: List<Item>,
+    state: MainScreenState.Items,
     onAmountChange: (Item, Int) -> Unit,
-    onDeleteItem: (Item) -> Unit
+    onDeleteItem: (Item) -> Unit,
+    onSearchTextChange: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
     ) {
-        items(items = items, key = { it.id }) {
+        item{
+            CustomSearchBar(state.search, onQueryChange = { onSearchTextChange(it) })
+        }
+        items(items = state.items, key = { it.id }) {
             ItemCard(item = it, onAmountChange, onDeleteItem)
         }
 
@@ -388,17 +391,17 @@ fun TagChip(
 @Composable
 private fun ItemListPreview() {
     IptesttaskTheme {
-        ItemList(
-            items = listOf(
-                Item(
-                    id = 2496,
-                    name = "iPhone 13",
-                    time = "6651",
-                    tags = listOf("Телефон", "Телефон", "Телефон", "Телефон"),
-                    amount = 3225
-                )
-            ),
-            { _, _ -> }, { }
-        )
+//        ItemList(
+//            items = listOf(
+//                Item(
+//                    id = 2496,
+//                    name = "iPhone 13",
+//                    time = "6651",
+//                    tags = listOf("Телефон", "Телефон", "Телефон", "Телефон"),
+//                    amount = 3225
+//                )
+//            ),
+//            { _, _ -> }, { }
+//        )
     }
 }
